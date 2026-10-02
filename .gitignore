@@ -1,0 +1,16 @@
+# --- python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# --- tooling
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# --- local state
+*.log
+.DS_Store
