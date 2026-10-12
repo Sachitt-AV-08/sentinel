@@ -199,7 +199,7 @@ pinning the blind spot so it cannot be mistaken for a bug.
 ## Tests
 
 ```powershell
-python -m pytest --cov=sentinel -q     # 130 tests, 75% coverage gate
+python -m pytest --cov=sentinel -q     # 130 tests, 68% coverage gate
 ```
 
 ## Known limits
