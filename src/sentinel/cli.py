@@ -14,12 +14,12 @@ import argparse
 import json
 import sys
 import time
-from typing import Sequence
+from collections.abc import Sequence
 
 from . import __version__
 from .classify import Classifier
-from .embed import HashingEmbedder, describe, default_embedder
-from .policy import ClassifierMode, Policy, Risk
+from .embed import HashingEmbedder, default_embedder, describe
+from .policy import ClassifierMode, Policy
 from .types import Choice, Noul, Score
 
 
@@ -176,7 +176,6 @@ def cmd_bench(args: argparse.Namespace) -> int:
 
 
 def cmd_eval(args: argparse.Namespace) -> int:
-    from .embed import describe
     from .eval_report import full_report
 
     emb = default_embedder(prefer_ollama=args.backend != "hashing")

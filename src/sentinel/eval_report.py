@@ -15,12 +15,12 @@ its deterministic layer, not because of the classifier's opinion.
 from __future__ import annotations
 
 import statistics
+from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import Mapping, Sequence
 
 from .classify import Classifier
 from .embed import Embedder, cosine
-from .policy import Policy, Risk, TOOL_BASELINE
+from .policy import TOOL_BASELINE, Policy
 
 # (tool, args, needs_human). Labels are what a careful human would require, not
 # what the policy happens to output - hand-written before running, so this is a

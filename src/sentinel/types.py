@@ -13,9 +13,10 @@ with a typed answer; nothing here produces prose.
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Literal, Sequence
+from typing import Literal
 
 
 class QuestionType(str, Enum):

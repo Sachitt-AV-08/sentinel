@@ -60,6 +60,18 @@ real bugs; all four are fixed and the failures are now regression tests.
 Both sets were written by the same author as the code. **76/76 on self-authored
 data is weak evidence.** Treat it as a floor, not a proof.
 
+### Test suite & coverage
+
+| metric | value |
+|---|---|
+| tests collected | 130 |
+| test files | 4 |
+| source lines | ~2.1k |
+| line coverage (gate) | 75% |
+| CI matrix | 2 OS × 4 Python versions |
+
+Run: `python -m pytest --cov=sentinel` (exits 1 below 75%).
+
 ### Latency — 27.7 ms p95 against a 50 ms target
 
 | stage | p50 | p95 | p99 | max |
@@ -187,7 +199,7 @@ pinning the blind spot so it cannot be mistaken for a bug.
 ## Tests
 
 ```powershell
-python -m pytest -q     # 58 tests
+python -m pytest --cov=sentinel -q     # 130 tests, 75% coverage gate
 ```
 
 ## Known limits

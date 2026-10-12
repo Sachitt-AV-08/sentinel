@@ -1,0 +1,42 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ["3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install
+        run: uv sync --extra dev --extra ollama
+      - name: Lint
+        run: uv run --no-sync ruff check src tests
+      - name: Test (with coverage gate)
+        run: uv run --no-sync pytest --cov=sentinel
+
+  build-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.12"
+      - name: Build
+        run: uv build
+      - name: Smoke test wheel
+        run: |
+          WHEEL=$(ls dist/*.whl | head -1)
+          pip install "${WHEEL}[ollama]"
+          sentinel --version
+          sentinel doctor --help

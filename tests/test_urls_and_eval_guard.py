@@ -19,9 +19,10 @@ import pytest
 
 from sentinel.policy import (
     _CONTENT_SECTIONS,
+)
+from sentinel.policy import (
     _is_transactional_url as transactional,
 )
-
 
 # ------------------------------------------------------- the missed URLs ----
 

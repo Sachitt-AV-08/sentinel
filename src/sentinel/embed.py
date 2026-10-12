@@ -18,7 +18,8 @@ import math
 import re
 import threading
 from collections import Counter
-from typing import Protocol, Sequence
+from collections.abc import Sequence
+from typing import Protocol
 
 DEFAULT_MODEL = "nomic-embed-text"
 DEFAULT_DIM = 768
@@ -48,7 +49,7 @@ def cosine(a: Sequence[float], b: Sequence[float]) -> float:
     """Cosine similarity. Assumes unit vectors, but does not require them."""
     if len(a) != len(b):
         raise ValueError(f"dimension mismatch: {len(a)} vs {len(b)}")
-    num = sum(x * y for x, y in zip(a, b))
+    num = sum(x * y for x, y in zip(a, b, strict=False))
     na = math.sqrt(sum(x * x for x in a))
     nb = math.sqrt(sum(y * y for y in b))
     if na == 0.0 or nb == 0.0:

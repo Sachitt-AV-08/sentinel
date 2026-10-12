@@ -14,8 +14,6 @@ from __future__ import annotations
 
 import pytest
 
-from sentinel import TOOL_BASELINE, Classifier, ClassifierMode, HashingEmbedder, Policy, Risk
-
 from sentinel import (
     TOOL_BASELINE,
     Classifier,

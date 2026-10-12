@@ -14,14 +14,14 @@ Three things it will not do:
 from __future__ import annotations
 
 import re
+from collections.abc import Callable, Mapping
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Callable, Mapping, Sequence
 from urllib.parse import urlparse
 
 from .classify import Classifier
 from .embed import UnavailableEmbedder
-from .types import Answer, Choice, Noul
+from .types import Answer, Choice
 
 
 class Risk(str, Enum):
@@ -123,7 +123,9 @@ RISK_CHOICE = Choice(
         ("safe", "Only reads or navigates. Nothing is changed and nothing is sent."),
         ("low", "Changes local state that can be undone, like expanding a menu or filling a form field."),
         ("outward", "Makes something visible to another person, like posting, sending, sharing or commenting."),
-        ("destructive", "Cannot be undone or costs money, like paying, deleting, cancelling a subscription or confirming an order."),
+        ("destructive",
+     "Cannot be undone or costs money, like paying, deleting, "
+     "cancelling a subscription or confirming an order."),
     ],
 )
 

@@ -17,8 +17,8 @@ Design commitments, all of which the tests pin:
 from __future__ import annotations
 
 import math
+from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import Sequence
 
 from .embed import Embedder, cosine, default_embedder
 from .types import Answer, Choice, Noul, Question, QuestionType, Score
@@ -94,7 +94,7 @@ class Calibration:
         return 1.0 / (1.0 + math.exp(-margin))
 
     @staticmethod
-    def platt(samples: Sequence[tuple[float, int]]) -> "Calibration":
+    def platt(samples: Sequence[tuple[float, int]]) -> Calibration:
         """Fit a 1-D logistic regression by gradient descent.
 
         Deliberately tiny and dependency-free. A dozen lines beats pulling in
@@ -128,7 +128,7 @@ class Calibration:
         return Calibration(kind="platt", a=a, b=b)
 
     @staticmethod
-    def isotonic(samples: Sequence[tuple[float, int]]) -> "Calibration":
+    def isotonic(samples: Sequence[tuple[float, int]]) -> Calibration:
         """Pool-adjacent-violators fit over observed positive rates."""
         if not samples:
             return Calibration()
@@ -240,7 +240,7 @@ class Classifier:
         option_texts = [description or label for label, description in q.options]
         margins = self._margins(state_vec, option_texts)
         raw = softmax(margins, self.temperature)
-        probs = {label: p for (label, _), p in zip(q.options, raw)}
+        probs = {label: p for (label, _), p in zip(q.options, raw, strict=False)}
         return Answer(
             type=QuestionType.CHOICE,
             value=max(probs.items(), key=lambda kv: kv[1])[0],
@@ -261,7 +261,7 @@ class Classifier:
             prior = i / (n - 1)
             margins.append(cosine(state_vec, self._embed(label)) + 0.15 * prior)
         raw = softmax(margins, self.temperature)
-        probs = {label: p for label, p in zip(q.labels, raw)}
+        probs = {label: p for label, p in zip(q.labels, raw, strict=False)}
         expected = sum(i * p for i, (_, p) in enumerate(probs.items())) / (n - 1)
         return Answer(
             type=QuestionType.SCORE,
